@@ -6,6 +6,8 @@
  */
 import express from 'express'
 import mockData from './api/index.js'
+// 控制台彩色文本
+import chalk from 'chalk'
 
 // express监听的端口号
 const expressPort = 3001
@@ -29,6 +31,7 @@ for (const mockItem of mockData) {
   // app.METHOD(url, callback[, callback ...])
   // res.json([body])
   app[mockItem.method || 'get'](mockItem.url, (req, res) => {
+    console.log(chalk.blue(`${mockItem.method}请求${mockItem.url}`))
     res.json(mockItem.data)
   })
 }
@@ -36,5 +39,5 @@ for (const mockItem of mockData) {
 // express监听端口
 app.listen(expressPort, () => {
   // 这里的字符串引号是反引号
-  console.log(`mock模拟数据接口已开启，监听端口${expressPort}`)
+  console.log(chalk.green(`mock模拟数据接口已开启，监听端口${expressPort}`))
 })
