@@ -7,6 +7,9 @@
 import express from 'express'
 import mockData from './api/index.js'
 
+// express监听的端口号
+const expressPort = 3001
+
 // 初始化express
 const app = express()
 
@@ -31,6 +34,7 @@ for (const mockItem of mockData) {
 }
 
 // express监听端口
-app.listen(8090, () => {
-  console.log('监听端口8090')
+app.listen(expressPort, () => {
+  // 这里的字符串引号是反引号
+  console.log(`mock模拟数据接口已开启，监听端口${expressPort}`)
 })
