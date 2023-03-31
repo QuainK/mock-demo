@@ -5,16 +5,10 @@
  * 以便前端开发时，可以随时准备好接口数据，方便页面调试，而不是干等后端提供可用接口和API文档
  */
 import express from 'express'
-import Mock from 'mockjs'
+import mockData from './api/index.js'
 
 // 初始化express
 const app = express()
-
-// mock模拟数据
-const mockData = Mock.mock({
-  status: 200,
-  hello: 'world',
-})
 
 // express中间件，解决跨域问题
 app.use((req, res, next) => {
@@ -26,11 +20,15 @@ app.use((req, res, next) => {
   next()
 })
 
-// express设置返回数据并做出对应类型（比如GET和POST）的响应
-app.get('/', (req, res) => {
-  // 返回的数据由mock提供
-  res.json(mockData)
-})
+// 将每个接口数据都用mock模拟，封装好后用express返回响应结果
+for (const mockItem of mockData) {
+  // 参考express官网文档
+  // app.METHOD(url, callback[, callback ...])
+  // res.json([body])
+  app[mockItem.method || 'get'](mockItem.url, (req, res) => {
+    res.json(mockItem.data)
+  })
+}
 
 // express监听端口
 app.listen(8090, () => {
